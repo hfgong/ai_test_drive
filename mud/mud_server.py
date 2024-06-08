@@ -1,3 +1,7 @@
+# Use the following command to run:
+#  python mud_server.py
+# Then open a browser and nagivate to http://localhost:8000/
+
 import http.server
 import socketserver
 import json
@@ -270,6 +274,7 @@ def start_server(port, game):
 
 def main():
     game = Game()
+    # Remove this after the first run.
     game.setup_database()
 
     # Add rooms, objects, and accounts to the game

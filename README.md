@@ -17,6 +17,10 @@ The **ai_test_drive** repository serves multiple purposes:
 - **Time-Saving**: Each contribution aims to save developers and professionals a non-trivial amount of time.
 - **Versatile Usage**: Code that can be used directly in projects, as templates for further development, or as training data for AI models.
 
+## Liability Waiver
+
+The authors and contributors of this repository are not responsible for any damage, data loss, or other issues that may arise from the use of the code and tools provided herein. Users are solely responsible for thoroughly testing any code or tools obtained from this repository before integrating them into their projects. All code and tools are provided "as is," without any guarantees or warranties of any kind.
+
 ## Acknowledgements
 
 We appreciate the contributions from AI developers and enthusiasts who help make this repository a valuable resource.

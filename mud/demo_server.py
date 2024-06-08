@@ -1,3 +1,7 @@
+# Use the following command to run:
+#  python demo_server.py
+# Then open a browser and nagivate to http://localhost:8000/
+
 import http.server
 import socketserver
 import json
@@ -230,6 +234,7 @@ def start_server(port):
 
 # Main function
 def main():
+    # Remove this after the first run.
     setup_database()
     start_server(8000)
 
