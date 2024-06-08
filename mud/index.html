@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MUD Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      min-height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <h1>MUD Game</h1>
+  <div>
+    <button onclick="sendCommand('move north')">Move North</button>
+    <button onclick="sendCommand('move south')">Move South</button>
+    <button onclick="sendCommand('look')">Look</button>
+  </div>
+  <div id="output"></div>
+
+  <script>
+      const accountId = localStorage.getItem('account_id');
+      if (!accountId) {
+        window.location.href = '/login.html';
+      }
+
+      function sendCommand(command) {
+        fetch('/api/command', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ account_id: accountId, command: command })
+        })
+      .then(response => response.json())
+      .then(data => {
+        const outputElement = document.getElementById('output');
+        outputElement.innerHTML += `<p>${data.message}</p>`;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+
+    function updatePlayerInfo() {
+      fetch(`/api/player?account_id=${accountId}`)
+      .then(response => response.json())
+      .then(data => {
+        const outputElement = document.getElementById('output');
+        outputElement.innerHTML = `<p>Player: ${data.name}</p>
+                                  <p>Description: ${data.description}</p>
+                                  <p>Health: ${data.health}</p>
+                                  <p>Location: Room ${data.location_id}</p>`;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+
+    // Update player info on page load
+    updatePlayerInfo();
+  </script>
+</body>
+</html>
