@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\begin{document}
+
+\title{Solution to the Differential Equation $y'' + y' + y + t = 0$}
+\author{}
+\date{}
+\maketitle
+
+\section*{Problem}
+Solve the differential equation:
+\begin{equation}
+y'' + y' + y + t = 0
+\end{equation}
+
+\section*{Solution}
+First, we solve the homogeneous part of the differential equation:
+\begin{equation}
+y'' + y' + y = 0
+\end{equation}
+
+The characteristic equation is:
+\begin{equation}
+r^2 + r + 1 = 0
+\end{equation}
+Solving this characteristic equation, we get the roots:
+\begin{equation}
+r = \frac{-1 \pm \sqrt{-3}}{2} = \frac{-1 \pm \sqrt{3}i}{2}
+\end{equation}
+
+Thus, the general solution to the homogeneous equation is:
+\begin{equation}
+y_h(t) = e^{-\frac{t}{2}} \left( C_1 \sin\left(\frac{\sqrt{3}t}{2}\right) + C_2 \cos\left(\frac{\sqrt{3}t}{2}\right) \right)
+\end{equation}
+
+Now, we find a particular solution to the non-homogeneous equation. We try a particular solution of the form:
+\begin{equation}
+y_p(t) = At + B
+\end{equation}
+
+Substituting $y_p(t)$ into the non-homogeneous differential equation:
+\begin{align}
+y_p'' + y_p' + y_p + t &= 0 \\
+0 + A + (At + B) + t &= 0 \\
+(1+A)t + (A + B) &= 0
+\end{align}
+
+Equating coefficients, we get:
+\begin{align}
+1 + A &= 0 \\
+A + B &= 0
+\end{align}
+
+Solving these equations, we find:
+\begin{align}
+A &= -1 \\
+B &= 1
+\end{align}
+
+Thus, the particular solution is:
+\begin{equation}
+y_p(t) = -t + 1
+\end{equation}
+
+Combining the homogeneous and particular solutions, we get the general solution:
+\begin{equation}
+y(t) = y_h(t) + y_p(t) = e^{-\frac{t}{2}} \left( C_1 \sin\left(\frac{\sqrt{3}t}{2}\right) + C_2 \cos\left(\frac{\sqrt{3}t}{2}\right) \right) - t + 1
+\end{equation}
+
+Therefore, the solution to the differential equation is:
+\begin{equation}
+y(t) = -t + \left( C_1 \sin\left(\frac{\sqrt{3}t}{2}\right) + C_2 \cos\left(\frac{\sqrt{3}t}{2}\right) \right) e^{-\frac{t}{2}} + 1
+\end{equation}
+
+\end{document}

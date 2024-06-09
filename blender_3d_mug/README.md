@@ -1,4 +1,4 @@
-# Blender Coffee Mug Python IBPY) Script
+# Blender Coffee Mug Python (BPY) Script
 
 This repository contains a Python script for creating a realistic coffee mug model in Blender. The script generates a mug with a hollow interior, a rim, and two handles attached to the mug body.
 
