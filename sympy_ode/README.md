@@ -10,4 +10,4 @@ This repository contains a demonstration of solving the differential equation \(
 ## Promtps
 * Help me write Python sympy code to solve y'' + y'+y +t=0
 * Help me write code to verify the solution
-* After running the code, the solution is Eq(y(t), -t + (C1*sin(sqrt(3)*t/2) + C2*cos(sqrt(3)*t/2))*exp(-t/2) + 1), could you put the problem and solution into a latex document?
+* After running the code, the solution is Eq(y(t), -t + `(C1*sin(sqrt(3)*t/2) + C2*cos(sqrt(3)*t/2))*exp(-t/2) + 1)`, could you put the problem and solution into a latex document?
