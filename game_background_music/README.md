@@ -15,6 +15,9 @@ This directory contains a collection of original background music pieces compose
 * Really cool, could you enrich them by adding a left hand staff and a string instrument staff?
 * Could you make them longer, with repeating with some variations
 
+## Usage
+
+You can use [this web ABC player](https://abc.rectanglered.com/) to play them. See [The ABC Notation Page](https://abcnotation.com/) for details about the notation language.
 
 ## Acknowledgements
 
