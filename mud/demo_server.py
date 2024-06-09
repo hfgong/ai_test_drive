@@ -2,6 +2,7 @@
 #  python demo_server.py
 # Then open a browser and nagivate to http://localhost:8000/
 
+import os
 import http.server
 import socketserver
 import json
@@ -9,7 +10,7 @@ import sqlite3
 
 # Database setup
 def setup_database():
-    conn = sqlite3.connect('mud_game.db')
+    conn = sqlite3.connect('demo_game.db')
     c = conn.cursor()
 
     # Create tables
@@ -234,8 +235,8 @@ def start_server(port):
 
 # Main function
 def main():
-    # Remove this after the first run.
-    setup_database()
+    if not os.path.exists('demo_game.db'):
+        setup_database()
     start_server(8000)
 
 if __name__ == "__main__":
