@@ -16,4 +16,4 @@ There two versions, both generated using Claude AI.
  * Now let's make the code more organized. Could you help me make each of the concept a class with instances. For example, we have Room class and a couple of Room instances for each room, also make commands into Classes with a base class. For reference, I put the whole Python code below, with some minor modifications by me.
 
 ## Notes
-Omitted some bug fixes prompts.
+Omitted some bug fixes prompts.  There might be some minor handmade code changes.
