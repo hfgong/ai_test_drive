@@ -1,6 +1,6 @@
 # ai_test_drive
 
-![ai_test_drive cover](https://github.com/your-username/ai_test_drive/main/cover_image.webp)
+![ai_test_drive cover](https://raw.githubusercontent.com/hfgong/ai_test_drive/main/cover_image.webp)
 
 
 Welcome to the **ai_test_drive** repository! This repository is dedicated to housing AI-generated code and tools designed to be useful for software developers and various professionals. Our focus is on creating high-quality, practical code that can save significant development time and effort.
