@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robust Cramer Solver</title>
+    <script>
+        // Function to transpose a matrix
+        function transpose(matrix) {
+            const rows = matrix.length;
+            const cols = matrix[0].length;
+            const result = Array.from({ length: cols }, () => Array(rows));
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    result[j][i] = matrix[i][j];
+                }
+            }
+            return result;
+        }
+
+        // Function to multiply two matrices
+        function multiplyMatrices(A, B) {
+            const rowsA = A.length;
+            const colsA = A[0].length;
+            const colsB = B[0].length;
+            const result = Array.from({ length: rowsA }, () => Array(colsB).fill(0));
+            for (let i = 0; i < rowsA; i++) {
+                for (let j = 0; j < colsB; j++) {
+                    for (let k = 0; k < colsA; k++) {
+                        result[i][j] += A[i][k] * B[k][j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        // Function to multiply a matrix and a vector
+        function multiplyMatrixVector(A, b) {
+            const rowsA = A.length;
+            const colsA = A[0].length;
+            const result = Array(rowsA).fill(0);
+            for (let i = 0; i < rowsA; i++) {
+                for (let j = 0; j < colsA; j++) {
+                    result[i] += A[i][j] * b[j];
+                }
+            }
+            return result;
+        }
+
+        // Function to compute the determinant of a 3x3 matrix
+        function determinant3x3(matrix) {
+            return matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) -
+                   matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) +
+                   matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]);
+        }
+
+        // Function to solve a 3x3 linear system using Cramer's Rule
+        function solve3x3(A, b) {
+            const detA = determinant3x3(A);
+            if (detA === 0) {
+                throw new Error("The system has no unique solution.");
+            }
+
+            const A1 = A.map(row => row.slice());
+            const A2 = A.map(row => row.slice());
+            const A3 = A.map(row => row.slice());
+
+            for (let i = 0; i < 3; i++) {
+                A1[i][0] = b[i];
+                A2[i][1] = b[i];
+                A3[i][2] = b[i];
+            }
+
+            const detA1 = determinant3x3(A1);
+            const detA2 = determinant3x3(A2);
+            const detA3 = determinant3x3(A3);
+
+            return [detA1 / detA, detA2 / detA, detA3 / detA];
+        }
+
+        // Function to add epsilon to the diagonal of a matrix
+        function addEpsilonToDiagonal(matrix, epsilon) {
+            for (let i = 0; i < matrix.length; i++) {
+                matrix[i][i] += epsilon;
+            }
+        }
+
+        // Function to solve an Nx3 linear system
+        function solveLinearSystem(A, b, epsilon = 1e-10) {
+            const rows = A.length;
+            const cols = A[0].length;
+
+            if (cols !== 3 || b.length !== rows) {
+                throw new Error("Matrix A must be Nx3 and vector b must be of size N.");
+            }
+
+            const At = transpose(A);
+            const AtA = multiplyMatrices(At, A);
+            const Atb = multiplyMatrixVector(At, b);
+
+            addEpsilonToDiagonal(AtA, epsilon);
+
+            const AtA3x3 = [
+                [AtA[0][0], AtA[0][1], AtA[0][2]],
+                [AtA[1][0], AtA[1][1], AtA[1][2]],
+                [AtA[2][0], AtA[2][1], AtA[2][2]]
+            ];
+
+            const Atb3 = [Atb[0], Atb[1], Atb[2]];
+
+            return solve3x3(AtA3x3, Atb3);
+        }
+
+        function runExample() {
+            // Example of an overdetermined system (4x3)
+            const A_overdetermined = [
+                [2, -1, 0],
+                [1, 3, 4],
+                [0, 2, 1],
+                [3, 1, 2]
+            ];
+            const b_overdetermined = [1, 12, 5, 7];
+
+            // Example of an underdetermined system (2x3)
+            const A_underdetermined = [
+                [1, 2, 3],
+                [4, 5, 6]
+            ];
+            const b_underdetermined = [14, 32];
+
+            try {
+                const x_overdetermined = solveLinearSystem(A_overdetermined, b_overdetermined);
+                console.log("Overdetermined solution: x1 =", x_overdetermined[0], ", x2 =", x_overdetermined[1], ", x3 =", x_overdetermined[2]);
+
+                const x_underdetermined = solveLinearSystem(A_underdetermined, b_underdetermined);
+                console.log("Underdetermined solution: x1 =", x_underdetermined[0], ", x2 =", x_underdetermined[1], ", x3 =", x_underdetermined[2]);
+            } catch (e) {
+                console.error(e.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            runExample();
+        });
+    </script>
+</head>
+<body>
+    <h1>Robust Cramer Solver</h1>
+    <p>Check the console for results.</p>
+</body>
+</html>
