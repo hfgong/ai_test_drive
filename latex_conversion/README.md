@@ -4,6 +4,8 @@
 
 This directory contains Latext documents converted from plain texts.  There are two demos, 1) creating a outline document with sections extracted from plain text TOC, 2) converting a plain text form to Latex for potential richer typesetting.
 
+The Latex documents are converted using GPT-4o.
+
 ## Prompt
 
 ### Generate \LaTex Sections based on TOC
