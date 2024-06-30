@@ -45,8 +45,9 @@ The "Shijing" is the earliest anthology of Chinese poetry, containing numerous r
     ]
   },
 ```
-The output of CPT 4o call is like the following
-```json{
+The output of GPT-4o call is like the following
+```json
+{
 "animals": ["马"],
 "plants": ["卷耳"]
 }
