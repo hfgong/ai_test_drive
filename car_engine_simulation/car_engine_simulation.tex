@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Car Engine Dynamics and Fuel Consumption Simulation}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This document outlines the formulas used to simulate the dynamics and fuel consumption of a car engine. The model considers the engine angular velocity, fuel consumption rate, fuel efficiency, power output, torque, and time-varying factors such as gas valve open level and load torque.
+
+\section{Formulas}
+
+\subsection{Fuel Consumption Rate}
+The fuel consumption rate, \(\dot{m}(t)\), depends on the time-varying gas valve open level, \(V(t)\), and the engine angular velocity, \(\omega(t)\):
+
+\begin{equation}
+\dot{m}(t) = k_{\text{fuel}} \cdot V(t) \cdot \omega(t)
+\end{equation}
+
+where \(k_{\text{fuel}}\) is a proportional constant for the fuel consumption rate.
+
+\subsection{Fuel Efficiency}
+The fuel efficiency, \(\eta_f(\omega(t))\), is a function of the engine angular velocity, \(\omega(t)\):
+
+\begin{equation}
+\eta_f(\omega(t)) = \eta_{\max} \cdot \left(1 - e^{-\alpha \cdot (\omega(t) - \omega_{\text{opt}})^2}\right)
+\end{equation}
+
+where \(\eta_{\max}\) is the maximum fuel efficiency, \(\alpha\) is a constant, and \(\omega_{\text{opt}}\) is the optimal angular velocity for maximum efficiency.
+
+\subsection{Power Output}
+The power output, \(P(t)\), is determined by the fuel consumption rate and the fuel efficiency:
+
+\begin{equation}
+P(t) = \dot{m}(t) \cdot \eta_f(\omega(t))
+\end{equation}
+
+\subsection{Total Torque}
+The total torque produced by the engine, \(T_{\text{total}}(t)\), is related to the power output and angular velocity:
+
+\begin{equation}
+T_{\text{total}}(t) = \frac{P(t)}{(2 \pi \cdot \omega(t) / 60)}
+\end{equation}
+
+\subsection{Internal Friction Torque}
+The internal friction torque, \(T_f(t)\), as a function of angular velocity is given by:
+
+\begin{equation}
+T_f(t) = k_{\text{friction}} \cdot \omega(t) + c_f
+\end{equation}
+
+where \(k_{\text{friction}}\) is the internal friction coefficient and \(c_f\) is a constant representing static friction.
+
+\subsection{Net Torque}
+The net torque, \(T_{\text{net}}(t)\), is the difference between the total torque, internal friction torque, and load torque:
+
+\begin{equation}
+T_{\text{net}}(t) = T_{\text{total}}(t) - T_f(t) - T_{\text{load}}(t)
+\end{equation}
+
+\subsection{Angular Acceleration}
+The angular acceleration, \(\alpha(t)\), is determined by the net torque and the engine's moment of inertia, \(I\):
+
+\begin{equation}
+\alpha(t) = \frac{T_{\text{net}}(t)}{I}
+\end{equation}
+
+\subsection{Update Angular Velocity}
+The angular velocity is updated using the angular acceleration over a small time step, \(dt\):
+
+\begin{equation}
+\omega(t+dt) = \omega(t) + \alpha(t) \cdot dt
+\end{equation}
+
+\section{Conclusion}
+These formulas provide a comprehensive model for simulating car engine dynamics and fuel consumption, considering the time-varying nature of the gas valve open level and load torque. Adjust the constants and functions based on empirical data or specific engine characteristics for more accurate simulations.
+
+\end{document}
