@@ -61,7 +61,7 @@ json\n{\n    \"animals\": [\"豕\"],\n    \"plants\": []\n}\n
 ## Features
 
 - Automatically downloads the "Shijing" JSON file
-- Uses the OpenAI GPT-4 API to extract animals and plants mentioned in each poem
+- Uses the OpenAI GPT-4o API to extract animals and plants mentioned in each poem
 - Supports resumable operation to save API call costs
 
 ## Installation
