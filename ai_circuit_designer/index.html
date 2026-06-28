@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Analog Circuit Compiler & Simulator</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js for beautiful real-time engineering graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome for telemetry icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="logo-icon"><i class="fa-solid fa-microchip"></i></div>
+      <h1>AI Analog Circuit Compiler & Laboratory</h1>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--text-muted);">
+      Domain Bridge: <strong style="color: var(--accent-neon);">Natural Language ➔ SPICE Netlist ➔ Nodal Solver</strong>
+    </div>
+  </header>
+
+  <main class="layout-container">
+    
+    <!-- LEFT PANEL: UNIFIED AI CODE IDE -->
+    <section class="control-sidebar">
+      
+      <div class="premium-card ide-card">
+        <div class="ide-header">
+          <div class="card-title"><i class="fa-solid fa-code"></i> AI Circuit Studio IDE</div>
+          <div class="ide-header-actions">
+            <!-- Preset Selector Dropdown -->
+            <select id="preset-select" class="ide-select" onchange="onPresetSelectChange(this.value)">
+              <option value="butterworth">Butterworth LPF</option>
+              <option value="rlc">RLC Resonator</option>
+              <option value="highpass">High-Pass Filter</option>
+            </select>
+            <!-- Toggle API Config Button -->
+            <button class="btn btn-icon" id="btn-api-toggle" onclick="toggleApiConfig()" title="Configure AI API Key">
+              <i class="fa-solid fa-gear"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Collapsible API Configuration Area -->
+        <div class="ide-api-config" id="api-config-area" style="display: none;">
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+            Configure your Gemini API Key for live AI generation. Saved locally in browser cache.
+          </p>
+          <div class="api-key-input">
+            <input type="password" id="api-key" placeholder="Enter Gemini API Key...">
+          </div>
+        </div>
+
+        <!-- Inline AI Prompt Input Bar -->
+        <div class="ide-ai-bar">
+          <input type="text" id="prompt-input" placeholder="🪄 Ask AI to generate/modify circuit (e.g. 'design high-pass at 5kHz')...">
+          <button class="btn btn-ai-compile" onclick="compilePrompt()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Compile
+          </button>
+        </div>
+
+        <!-- Inline Loading Indicator -->
+        <div class="loading-indicator" id="prompt-loader">
+          <span class="loading-spinner"></span>
+          <span>AI is compiling natural language to netlist...</span>
+        </div>
+
+        <!-- Quick Suggestions -->
+        <div class="ide-suggestions">
+          <span class="suggest-label">Try:</span>
+          <a href="#" onclick="selectPresetPrompt('design a high-pass filter with a cutoff frequency of 5khz')">High-Pass 5kHz</a>
+          <span class="suggest-divider">|</span>
+          <a href="#" onclick="selectPresetPrompt('create a low-pass filter with cutoff of 500hz and 10v ac amplitude')">LPF 500Hz, 10V</a>
+          <span class="suggest-divider">|</span>
+          <a href="#" onclick="selectPresetPrompt('build an rlc parallel resonator at 20khz')">RLC 20kHz</a>
+        </div>
+
+        <!-- Big Code Editor Container with Line Numbers -->
+        <div class="code-terminal-wrapper">
+          <div class="code-header">
+            <div class="terminal-dots">
+              <span class="dot dot-r"></span>
+              <span class="dot dot-y"></span>
+              <span class="dot dot-g"></span>
+            </div>
+            <span>netlist.spice</span>
+          </div>
+          <div class="editor-container">
+            <div class="line-numbers" id="line-numbers">1</div>
+            <textarea id="editor" class="code-editor-textarea" onscroll="syncScroll()" oninput="onEditorInput()"></textarea>
+          </div>
+        </div>
+
+        <button class="btn btn-run" id="btn-simulate" onclick="runSimulation()" style="width: 100%; margin-top: 0.5rem;">
+          <i class="fa-solid fa-play"></i> Run Simulation
+        </button>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL: TELEMETRY VIEWS -->
+    <section class="telemetry-deck">
+      
+      <!-- Live Nodal Waveforms -->
+      <div class="premium-card">
+        <div class="card-title"><i class="fa-solid fa-wave-square"></i> Oscilloscope Real-Time Transient Telemetry</div>
+        <div class="chart-viewport">
+          <canvas id="osc-chart"></canvas>
+        </div>
+        <div class="nodal-results" id="node-badges">
+          <!-- Node badges loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Dual Bode Plots & Component Spec -->
+      <div class="oscilloscope-row">
+        
+        <div class="premium-card">
+          <div class="card-title"><i class="fa-solid fa-chart-line"></i> Bode Plot (AC Frequency Response)</div>
+          <div class="chart-viewport">
+            <canvas id="bode-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="premium-card">
+          <div class="card-title"><i class="fa-solid fa-list-check"></i> Netlist Components Inspector</div>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+            Parsed Netlist breakdown showing electrical values and terminal node mappings.
+          </p>
+          <div style="overflow-y: auto; max-height: 290px;">
+            <table class="components-table">
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>Node Map</th>
+                  <th>Value Spec</th>
+                </tr>
+              </thead>
+              <tbody id="components-tbody">
+                <!-- Table entries populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Load script files -->
+  <script src="circuit.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Space Deployable Origami Telemetry HUD</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Three.js for outstanding 3D WebGL aerospace modeling -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- FontAwesome for mission control icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="logo-icon"><i class="fa-solid fa-satellite"></i></div>
+      <h1>AI Deployable Space Origami Telemetry Cockpit</h1>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--text-muted);">
+      Domain Bridge: <strong style="color: var(--accent-neon);">Natural Language ➔ FOLD JSON format ➔ Rigid Unfolding Mesh</strong>
+    </div>
+  </header>
+
+  <main class="layout-container">
+    
+    <!-- LEFT PANEL: UNIFIED AI SPACE ORIGAMI IDE -->
+    <section class="control-sidebar">
+      
+      <div class="premium-card ide-card">
+        <div class="ide-header">
+          <div class="card-title"><i class="fa-solid fa-code"></i> AI Origami Studio IDE</div>
+          <div class="ide-header-actions">
+            <!-- Preset Selector Dropdown -->
+            <select id="preset-select" class="ide-select" onchange="onPresetSelectChange(this.value)">
+              <option value="miura">Miura-Fold Solar Grid</option>
+              <option value="flasher">Flasher Starburst Sail</option>
+              <option value="jwst">James Webb Hex Wing</option>
+            </select>
+            <!-- Toggle API Config Button -->
+            <button class="btn btn-icon" id="btn-api-toggle" onclick="toggleApiConfig()" title="Configure AI API Key">
+              <i class="fa-solid fa-gear"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Collapsible API Configuration Area -->
+        <div class="ide-api-config" id="api-config-area" style="display: none;">
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+            Configure your Gemini API Key for live AI generation. Saved locally in browser cache.
+          </p>
+          <div class="api-key-input">
+            <input type="password" id="api-key" placeholder="Enter Gemini API Key...">
+          </div>
+        </div>
+
+        <!-- Inline AI Prompt Input Bar -->
+        <div class="ide-ai-bar">
+          <input type="text" id="prompt-input" placeholder="🪄 Ask AI to generate space origami (e.g. 'deploy JWST mirror')...">
+          <button class="btn btn-ai-compile" onclick="compileSpacePrompt()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Compile
+          </button>
+        </div>
+
+        <!-- Inline Loading Indicator -->
+        <div class="loading-indicator" id="prompt-loader">
+          <span class="loading-spinner"></span>
+          <span>AI is compiling orbital payload configuration...</span>
+        </div>
+
+        <!-- Quick Suggestions -->
+        <div class="ide-suggestions">
+          <span class="suggest-label">Try:</span>
+          <a href="#" onclick="selectPresetPrompt('deploy james webb space telescope mirrors')">JWST Mirrors</a>
+          <span class="suggest-divider">|</span>
+          <a href="#" onclick="selectPresetPrompt('launch circular solar sail flasher fold in orbit')">Flasher Sail</a>
+          <span class="suggest-divider">|</span>
+          <a href="#" onclick="selectPresetPrompt('establish a miura-fold solar array in low-earth orbit')">LEO Miura Array</a>
+        </div>
+
+        <!-- Big Code Editor Container with Line Numbers -->
+        <div class="code-terminal-wrapper">
+          <div class="code-header">
+            <div class="terminal-dots">
+              <span class="dot dot-r"></span>
+              <span class="dot dot-y"></span>
+              <span class="dot dot-g"></span>
+            </div>
+            <span>origami.fold</span>
+          </div>
+          <div class="editor-container">
+            <div class="line-numbers" id="line-numbers">1</div>
+            <textarea id="editor" class="code-editor-textarea" onscroll="syncScroll()" oninput="onEditorInput()"></textarea>
+          </div>
+        </div>
+
+        <button class="btn btn-run" onclick="compileFOLDInput()" style="width: 100%; margin-top: 0.5rem;">
+          <i class="fa-solid fa-rotate"></i> Re-Compile Structure
+        </button>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL: WebGL HUD VIEWPORT -->
+    <section class="telemetry-deck">
+      
+      <!-- Interactive WebGL Space Scene -->
+      <div class="premium-card" style="padding: 0.5rem; position: relative;">
+        <div class="canvas-viewport" id="canvas-container">
+          
+          <!-- Viewport HUD Details -->
+          <div class="viewport-hud-top-left">
+            <div class="hud-badge"><i class="fa-solid fa-satellite-dish"></i> Deep Space Telemetry Link: ACTIVE</div>
+            <div class="hud-badge" style="background: rgba(2,4,10,0.45); border-color: rgba(255,255,255,0.05); color: var(--text-secondary);">
+              <i class="fa-solid fa-arrows-spin"></i> Click and drag to orbit camera | Scroll to Zoom
+            </div>
+          </div>
+
+          <div class="viewport-hud-top-right">
+            <div class="hud-badge" style="border-color: var(--accent-cyan); color: var(--accent-cyan); font-weight: bold;">
+              ORBIT EXTENSION RATIO
+            </div>
+            <div class="hud-dial" id="hud-percent">5.0%</div>
+          </div>
+
+          <!-- Bottom Timeline Scrubber -->
+          <div class="viewport-hud-bottom">
+            <span class="timeline-label"><i class="fa-solid fa-shuttle-space"></i> STOWED Launch</span>
+            <input type="range" id="scrubber" class="timeline-scrubber" min="0.02" max="1.0" step="0.005" value="0.05">
+            <span class="timeline-label" style="text-align: right;"><i class="fa-solid fa-circle-check"></i> DEPLOYED Orbit</span>
+          </div>
+
+          <!-- Canvas is attached here by app.js -->
+        </div>
+      </div>
+
+      <!-- Mission Telemetry Data Grid -->
+      <div class="premium-card">
+        <div class="card-title"><i class="fa-solid fa-chart-simple"></i> Telemetry Sensor Metrics</div>
+        <div class="telemetry-grid">
+          
+          <div class="stat-item">
+            <div class="stat-label">Stowed Volume</div>
+            <div class="stat-value" id="val-volume">9.54 m³</div>
+          </div>
+
+          <div class="stat-item" style="border-left-color: var(--accent-cyan);">
+            <div class="stat-label">Deployed Area</div>
+            <div class="stat-value" id="val-area">1.8 m²</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-label">Solar Power Generated</div>
+            <div class="stat-value" style="color: #22c55e;" id="val-power">240 W</div>
+          </div>
+
+          <div class="stat-item" style="border-left-color: #ec4899;">
+            <div class="stat-label">Orbital Velocity</div>
+            <div class="stat-value" id="val-velocity">7.671 km/s</div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Load script files -->
+  <script src="simulator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

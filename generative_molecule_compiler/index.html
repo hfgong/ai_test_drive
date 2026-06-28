@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Generative Molecule Compiler & Visualizer</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Three.js for outstanding 3D WebGL chemical modeling -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- FontAwesome for biotechnology HUD icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="logo-icon"><i class="fa-solid fa-dna"></i></div>
+      <h1>AI Generative Molecule Compiler & Terminal</h1>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--text-muted);">
+      Domain Bridge: <strong style="color: var(--accent-neon);">Natural Language ➔ SMILES String ➔ WebGL 3D Ball-and-Stick</strong>
+    </div>
+  </header>
+
+  <main class="layout-container">
+    
+    <!-- LEFT PANEL: UNIFIED AI MOLECULAR IDE -->
+    <section class="control-sidebar">
+      
+      <div class="premium-card ide-card">
+        <div class="ide-header">
+          <div class="card-title"><i class="fa-solid fa-code"></i> AI Molecule Studio IDE</div>
+          <div class="ide-header-actions">
+            <!-- Preset Selector Dropdown -->
+            <select id="preset-select" class="ide-select" onchange="onPresetSelectChange(this.value)">
+              <option value="caffeine">Caffeine</option>
+              <option value="aspirin">Aspirin</option>
+              <option value="paracetamol">Paracetamol</option>
+              <option value="ethanol">Ethanol</option>
+            </select>
+            <!-- Toggle API Config Button -->
+            <button class="btn btn-icon" id="btn-api-toggle" onclick="toggleApiConfig()" title="Configure AI API Key">
+              <i class="fa-solid fa-gear"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Collapsible API Configuration Area -->
+        <div class="ide-api-config" id="api-config-area" style="display: none;">
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.4;">
+            Configure your Gemini API Key for live AI generation. Saved locally in browser cache.
+          </p>
+          <div class="api-key-input">
+            <input type="password" id="api-key" placeholder="Enter Gemini API Key...">
+          </div>
+        </div>
+
+        <!-- Inline AI Prompt Input Bar -->
+        <div class="ide-ai-bar">
+          <input type="text" id="prompt-input" placeholder="🪄 Ask AI to generate molecule (e.g. 'build ibuprofen')...">
+          <button class="btn btn-ai-compile" onclick="compileAIPrompt()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Compile
+          </button>
+        </div>
+
+        <!-- Inline Loading Indicator -->
+        <div class="loading-indicator" id="prompt-loader">
+          <span class="loading-spinner"></span>
+          <span>AI is compiling natural language to SMILES...</span>
+        </div>
+
+        <!-- Quick Suggestions -->
+        <div class="ide-suggestions">
+          <span class="suggest-label">Try:</span>
+          <a href="#" onclick="selectPresetPrompt('build a molecule of caffeine')">Caffeine</a>
+          <span class="suggest-divider">|</span>
+          <a href="#" onclick="selectPresetPrompt('generate ibuprofen smiles')">Ibuprofen</a>
+          <span class="suggest-divider">|</span>
+          <a href="#" onclick="selectPresetPrompt('build benzene ring')">Benzene ring</a>
+        </div>
+
+        <!-- Big Code Editor Container with Line Numbers -->
+        <div class="code-terminal-wrapper">
+          <div class="code-header">
+            <div class="terminal-dots">
+              <span class="dot dot-r"></span>
+              <span class="dot dot-y"></span>
+              <span class="dot dot-g"></span>
+            </div>
+            <span>structure.smiles</span>
+          </div>
+          <div class="editor-container">
+            <div class="line-numbers" id="line-numbers">1</div>
+            <textarea id="editor" class="code-editor-textarea" onscroll="syncScroll()" oninput="onEditorInput()"></textarea>
+          </div>
+        </div>
+
+        <button class="btn btn-run" onclick="compileSMILESInput()" style="width: 100%; margin-top: 0.5rem;">
+          <i class="fa-solid fa-rotate"></i> Re-Compile Structure
+        </button>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL: 3D TELEMETRY VIEWS -->
+    <section class="telemetry-deck">
+      
+      <div class="visualization-row">
+        
+        <!-- WebGL 3D Molecule Viewport -->
+        <div class="premium-card" style="padding: 0.5rem;">
+          <div class="canvas-viewport" id="canvas-container">
+            <div class="viewport-hud">
+              <div class="hud-badge"><i class="fa-solid fa-circle-nodes"></i> Interactive WebGL 3D Viewport</div>
+              <div class="hud-badge" style="background: rgba(5,11,20,0.45); border-color: rgba(255,255,255,0.05); color: var(--text-secondary);">
+                <i class="fa-solid fa-computer-mouse"></i> Drag to Rotate | Scroll to Zoom
+              </div>
+            </div>
+            <!-- Canvas is attached by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Chemical Properties Panel -->
+        <div class="premium-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="card-title"><i class="fa-solid fa-circle-info"></i> Biotech Analysis</div>
+            <div class="formula-display" id="formula">
+              C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.4;">
+              Physical and topological characteristics computed via molecular mechanics relaxation solver.
+            </p>
+            <div class="prop-list">
+              <div class="prop-item">
+                <span class="prop-label">Molecular Weight</span>
+                <span class="prop-val" id="weight">194.19 g/mol</span>
+              </div>
+              <div class="prop-item">
+                <span class="prop-label">Total Atoms</span>
+                <span class="prop-val" id="atoms-count">24</span>
+              </div>
+              <div class="prop-item">
+                <span class="prop-label">Total Bonds</span>
+                <span class="prop-val" id="bonds-count">25</span>
+              </div>
+              <div class="prop-item">
+                <span class="prop-label">Rotatable Bonds</span>
+                <span class="prop-val" id="rotatable-bonds">0</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: rgba(0,242,254,0.03); border: 1px dashed var(--border-color); border-radius: 8px; padding: 0.8rem; margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">
+            <strong style="color: var(--accent-neon); display: block; margin-bottom: 0.2rem;"><i class="fa-solid fa-triangle-exclamation"></i> Stereochemistry Note:</strong>
+            Hydrogens are auto-inferred using implicit valence rules. Molecular relaxation is done client-side using a Coulombic + Hookean force vector simulation.
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Load script files -->
+  <script src="molecule.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
