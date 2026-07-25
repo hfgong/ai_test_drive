@@ -15,8 +15,8 @@ in two much smaller pieces:
 Together, (A) + (B) imply det(J_F) = -2 identically.
 """
 
-from sympy import symbols, Matrix, Rational, Poly, expand, diff, randprime
-import random
+from sympy import symbols, Matrix, Rational, Poly, expand, diff
+import random, math
 
 x, y, z = symbols('x y z')
 
@@ -61,20 +61,51 @@ print(f"  d(det J)/dz = {d_dz}")
 print()
 
 # ------------------------------------------------------------------
-# (C) Monte Carlo evidence: evaluate det J at 20 random integer
-#     points. Not a proof, but persuasive.
+# (C) Monte Carlo evidence, with Schwartz-Zippel bookkeeping.
+#
+# A-priori bound on deg(det J) (using row-max entry degrees, this is
+# a valid upper bound whether or not the determinant cancels):
+#   row 0 max entry deg = 6
+#   row 1 max entry deg = 5
+#   row 2 max entry deg = 3
+#   =>  deg(det J) <= 14
+#
+# Schwartz-Zippel: if P is a nonzero polynomial of total degree <= d
+# over Q, and we sample each variable uniformly from S subset Z with
+# |S| values, then Pr[P(vec) = 0] <= d / |S| per sample, and the
+# probability of a false-positive over k independent samples is
+# <= (d/|S|)^k.
+#
+# To make MC evidence strong ON ITS OWN, pick |S| >> d and k large
+# enough that (d/|S|)^k is negligible.
 # ------------------------------------------------------------------
+D_BOUND = 14        # a-priori upper bound on total degree of det J
+N       = 1000      # sample from {-N, ..., N}, so |S| = 2N+1
+K       = 30        # number of independent samples
+
+S = 2*N + 1
+per_sample = D_BOUND / S
+overall    = per_sample ** K
+print("Step C -- Monte Carlo with Schwartz-Zippel bound:")
+print(f"  a-priori deg(det J) <= d = {D_BOUND}")
+print(f"  sample range |S| = 2*{N}+1 = {S}")
+print(f"  independent samples k = {K}")
+print(f"  per-sample false-positive bound d/|S|      = {per_sample:.3e}")
+print(f"  overall bound (d/|S|)^k                    = {overall:.3e}")
+print(f"  ~ approx. equivalent to {-math.log10(overall):.1f} decimal 9s of confidence")
+print()
+
 random.seed(0)
-print("Step C -- Monte Carlo: det J at 20 random integer points:")
 all_ok = True
-for _ in range(20):
-    pt = {x: random.randint(-9, 9),
-          y: random.randint(-9, 9),
-          z: random.randint(-9, 9)}
+for i in range(K):
+    pt = {x: random.randint(-N, N),
+          y: random.randint(-N, N),
+          z: random.randint(-N, N)}
     val = J.subs(pt).det()
     ok = (val == -2)
     all_ok &= ok
     mark = "OK" if ok else "!!"
-    print(f"  {mark}  point={ {str(k): v for k, v in pt.items()} }  det={val}")
+    xv, yv, zv = pt[x], pt[y], pt[z]
+    print(f"  {mark}  ({xv:>5},{yv:>5},{zv:>5})  det={val}")
 print()
-print(f"All 20 evaluations returned -2: {all_ok}")
+print(f"All {K} evaluations returned -2: {all_ok}")

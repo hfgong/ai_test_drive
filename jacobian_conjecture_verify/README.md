@@ -68,9 +68,21 @@ constant must be $-2$ everywhere. Two independent checks:
   $\partial(\det J)/\partial y$, $\partial(\det J)/\partial z$ are the
   zero polynomial.
 
-**(C) Sanity Monte Carlo.** Evaluating $\det J$ at 20 random integer
-triples all return $-2$. Not a proof on its own, but combined with (B)
-it's overwhelming evidence.
+**(C) Monte Carlo with a Schwartz–Zippel bound.** Evaluating $\det J - (-2)$
+at random integer triples and finding it zero *would* be very weak evidence
+if the sample range were small — Schwartz–Zippel says that a nonzero
+polynomial of total degree $d$ vanishes on a random point drawn from
+$S^n \subset \mathbb{Z}^n$ with probability at most $d/|S|$. An a-priori
+bound from the row-max entry degrees of $J$ gives $\deg(\det J) \le 6+5+3 = 14$
+(regardless of whether it cancels to a constant). So to make the MC step
+carry weight *on its own*, we sample from $S = \{-1000,\dots,1000\}$
+($|S|=2001$) and take $k=30$ independent samples. The false-positive
+probability bound is
+
+$$\Bigl(\tfrac{14}{2001}\Bigr)^{30} \;\approx\; 2.2\times 10^{-65}.$$
+
+All 30 evaluations return $-2$, so this alone is conclusive; combined with
+(B) it's overkill.
 
 ## Result
 

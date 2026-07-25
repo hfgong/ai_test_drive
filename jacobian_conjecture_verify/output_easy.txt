@@ -12,26 +12,43 @@ Step B2 -- constancy via vanishing gradient:
   d(det J)/dy = 0
   d(det J)/dz = 0
 
-Step C -- Monte Carlo: det J at 20 random integer points:
-  OK  point={'x': 3, 'y': 4, 'z': -8}  det=-2
-  OK  point={'x': -1, 'y': 7, 'z': 6}  det=-2
-  OK  point={'x': 3, 'y': 0, 'z': 6}  det=-2
-  OK  point={'x': 2, 'y': 9, 'z': -3}  det=-2
-  OK  point={'x': 7, 'y': -5, 'z': 0}  det=-2
-  OK  point={'x': -5, 'y': -6, 'z': -1}  det=-2
-  OK  point={'x': 8, 'y': -5, 'z': 0}  det=-2
-  OK  point={'x': -6, 'y': -7, 'z': 1}  det=-2
-  OK  point={'x': 6, 'y': 8, 'z': -6}  det=-2
-  OK  point={'x': 2, 'y': 4, 'z': 1}  det=-2
-  OK  point={'x': -3, 'y': 8, 'z': 6}  det=-2
-  OK  point={'x': 5, 'y': 7, 'z': -1}  det=-2
-  OK  point={'x': -8, 'y': 8, 'z': -9}  det=-2
-  OK  point={'x': -7, 'y': 3, 'z': -9}  det=-2
-  OK  point={'x': 6, 'y': 1, 'z': -2}  det=-2
-  OK  point={'x': 1, 'y': -7, 'z': -3}  det=-2
-  OK  point={'x': 9, 'y': -2, 'z': -2}  det=-2
-  OK  point={'x': -5, 'y': 8, 'z': 5}  det=-2
-  OK  point={'x': -7, 'y': -7, 'z': 1}  det=-2
-  OK  point={'x': 7, 'y': 6, 'z': -6}  det=-2
+Step C -- Monte Carlo with Schwartz-Zippel bound:
+  a-priori deg(det J) <= d = 14
+  sample range |S| = 2*1000+1 = 2001
+  independent samples k = 30
+  per-sample false-positive bound d/|S|      = 6.997e-03
+  overall bound (d/|S|)^k                    = 2.220e-65
+  ~ approx. equivalent to 64.7 decimal 9s of confidence
 
-All 20 evaluations returned -2: True
+  OK  (  729, -212,  552)  det=-2
+  OK  (  823, -139, -918)  det=-2
+  OK  ( -470,  977,   47)  det=-2
+  OK  (   -5, -171,  880)  det=-2
+  OK  (  605,  699, -379)  det=-2
+  OK  (  982,  -24, -267)  det=-2
+  OK  (  194,  826,  859)  det=-2
+  OK  ( -553,   33, -715)  det=-2
+  OK  ( -423, -714,  547)  det=-2
+  OK  ( -806,  266,  637)  det=-2
+  OK  ( -487,  863,   90)  det=-2
+  OK  (  444,  659,  232)  det=-2
+  OK  (  847, -700, -365)  det=-2
+  OK  ( -798,  494, -849)  det=-2
+  OK  (  840,  741,  400)  det=-2
+  OK  ( -324,  -34,  146)  det=-2
+  OK  ( -794, -276, -111)  det=-2
+  OK  ( -353,  251,  311)  det=-2
+  OK  (  869, -582,  979)  det=-2
+  OK  (  131,  -24,  -94)  det=-2
+  OK  (  772,   67, -467)  det=-2
+  OK  ( -873,  648,  881)  det=-2
+  OK  (  123,  875, -972)  det=-2
+  OK  ( -809,  473,  720)  det=-2
+  OK  ( -184,  454,  689)  det=-2
+  OK  (  607,  368,  280)  det=-2
+  OK  ( -998,  253,   10)  det=-2
+  OK  (  695,  776, -318)  det=-2
+  OK  ( -501,  495, -334)  det=-2
+  OK  (  441,  782, -872)  det=-2
+
+All 30 evaluations returned -2: True
