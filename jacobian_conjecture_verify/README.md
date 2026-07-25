@@ -37,6 +37,8 @@ This repo only performs the symbolic check.
 - `verify.py` — SymPy script that prints the Jacobian matrix, its symbolic
   determinant, and $F$ evaluated at the three claimed collision points.
 - `output.txt` — captured stdout from running `python3 verify.py`.
+- `jacobian.tex` / `jacobian.pdf` / `jacobian.png` — typeset display of the
+  full 3x3 Jacobian, its determinant, and the collision identity.
 
 ## Result
 
@@ -64,3 +66,4 @@ something this script can decide.
 - Package the verification as a new sub-project under `ai_test_drive/` with
   the Python code, the run output, and an acknowledgement of the original
   author.
+- Convert the Jacobian into display math in LaTeX and render to PDF/PNG.

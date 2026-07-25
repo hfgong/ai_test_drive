@@ -1,0 +1,68 @@
+\documentclass[11pt]{article}
+\usepackage[paperwidth=42cm,paperheight=22cm,margin=1.2cm]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\large\textbf{Jacobian of Alpoge's candidate counterexample map} \; $F : \mathbb{C}^3 \to \mathbb{C}^3$}
+\end{center}
+
+\medskip
+
+\[
+F(x, y, z) \;=\; \Big(\,(1+xy)^{3} z + y^{2}(1+xy)(4+3xy),\quad
+                      y + 3x(1+xy)^{2} z + 3xy^{2}(4+3xy),\quad
+                      2x - 3x^{2} y - x^{3} z\,\Big)
+\]
+
+\medskip
+
+\[
+\frac{\partial F}{\partial (x, y, z)}
+\;=\;
+\adjustbox{max width=0.98\linewidth}{$
+\begin{pmatrix}
+3 y^{3} \left(x y + 1\right) + y^{3} \left(3 x y + 4\right) + 3 y z \left(x y + 1\right)^{2}
+  & 3 x y^{2} \left(x y + 1\right) + x y^{2} \left(3 x y + 4\right) + 3 x z \left(x y + 1\right)^{2} + 2 y \left(x y + 1\right) \left(3 x y + 4\right)
+  & \left(x y + 1\right)^{3} \\[4pt]
+9 x y^{3} + 6 x y z \left(x y + 1\right) + 3 y^{2} \left(3 x y + 4\right) + 3 z \left(x y + 1\right)^{2}
+  & 9 x^{2} y^{2} + 6 x^{2} z \left(x y + 1\right) + 6 x y \left(3 x y + 4\right) + 1
+  & 3 x \left(x y + 1\right)^{2} \\[4pt]
+-3 x^{2} z - 6 x y + 2
+  & -3 x^{2}
+  & -x^{3}
+\end{pmatrix}
+$}
+\]
+
+\medskip
+
+\[
+\det\!\left(\frac{\partial F}{\partial (x, y, z)}\right) \;=\; -2
+\qquad(\text{SymPy-verified identity in } \mathbb{Q}[x,y,z])
+\]
+
+\medskip
+
+\begin{center}
+Three distinct points collapse to the same image:
+\end{center}
+
+\[
+F\bigl(0,\, 0,\, -\tfrac{1}{4}\bigr) \;=\;
+F\bigl(1,\, -\tfrac{3}{2},\, \tfrac{13}{2}\bigr) \;=\;
+F\bigl(-1,\, \tfrac{3}{2},\, \tfrac{13}{2}\bigr) \;=\; \bigl(-\tfrac{1}{4},\, 0,\, 0\bigr)
+\]
+
+\vfill
+\begin{center}
+\small
+Map and points due to Levent Alpoge (\texttt{@\_\_alpoge\_\_}), announcement 2026-07-20.\\
+This document is a symbolic re-derivation only.
+\end{center}
+
+\end{document}
