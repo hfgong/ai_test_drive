@@ -111,26 +111,25 @@ print()
 print(f"All {K} evaluations returned -2: {all_ok}")
 
 # ------------------------------------------------------------------
-# (D) Human-readable demo table: the exact 54 points shown in
-#     jacobian.tex / jacobian.pdf, drawn from a small range so a
-#     reader can plug them into f_1, f_2, f_3 by hand if they wish.
+# (D) Human-readable demo: the exact 9 small-integer points shown in
+#     jacobian.tex / jacobian.pdf, with the full 3x3 Jacobian matrix
+#     printed at each so a reader can Sarrus-expand by hand.
 # ------------------------------------------------------------------
-random.seed(42)
-seen = set(); demo_pts = []
-while len(demo_pts) < 54:
-    p = (random.randint(-5, 5), random.randint(-5, 5), random.randint(-5, 5))
-    if p not in seen:
-        seen.add(p); demo_pts.append(p)
-
+demo_pts = [
+    (0, 0, 0), (1, 0, 0), (0, 1, 0),
+    (0, 0, 1), (1, 1, 0), (-1, 1, 0),
+    (1, -1, 1), (2, 1, -1), (-1, 2, 1),
+]
 print()
-print("Step D -- demo of 54 human-readable points (small integers).")
-print("Range {-5,...,5}, |S|=11.  Weak SZ bound alone; shown for illustration only.")
+print("Step D -- demo of 9 human-readable points (with full J matrix at each).")
 demo_ok = True
-for i, (xv, yv, zv) in enumerate(demo_pts):
-    val = J.subs({x: xv, y: yv, z: zv}).det()
+for (xv, yv, zv) in demo_pts:
+    Jp = J.subs({x: xv, y: yv, z: zv})
+    val = Jp.det()
     ok = (val == -2)
     demo_ok &= ok
-    end = "\n" if (i + 1) % 6 == 0 else "   "
-    mark = "" if ok else "!!"
-    print(f"({xv:>2},{yv:>2},{zv:>2}){mark}", end=end)
-print(f"All 54 demo points returned -2: {demo_ok}")
+    rows = [[int(Jp[i, j]) for j in range(3)] for i in range(3)]
+    print(f"  point ({xv:>2},{yv:>2},{zv:>2}):  J = "
+          f"[{rows[0]}, {rows[1]}, {rows[2]}]  det = {val}   {'ok' if ok else '!!'}")
+print()
+print(f"All {len(demo_pts)} demo points returned -2: {demo_ok}")

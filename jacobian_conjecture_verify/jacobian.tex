@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage[paperwidth=42cm,paperheight=30cm,margin=1.2cm]{geometry}
+\usepackage[paperwidth=42cm,paperheight=27cm,margin=1.2cm]{geometry}
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{adjustbox}
@@ -62,34 +62,36 @@ F\bigl(-1,\, \tfrac{3}{2},\, \tfrac{13}{2}\bigr) \;=\; \bigl(-\tfrac{1}{4},\, 0,
 
 \begin{center}
 \small
-Demo: $\det J$ evaluated at 54 small integer points from $[-5, 5]^{3}$
-(seed 42), each returning $-2$.
-This is illustrative only --- the script's rigorous MC uses $[-1000,1000]^{3}$,
-$k{=}30$, for a Schwartz--Zippel false-positive bound $\lesssim 2.2\times10^{-65}$.
+At each small-integer point $(x,y,z)$ below, the middle column shows
+$J(x,y,z)$ as a $3\times3$ integer matrix, and the right column is its
+determinant. Any row is human-verifiable: pick a point, substitute into the
+formulas for $\partial f_i / \partial(x,y,z)$, and take the $3\times3$
+determinant (Sarrus is easiest here).
+Fewer points than the MC step because the full matrices need room ---
+the script's rigorous MC uses $[-1000,1000]^{3}$, $k{=}30$, for a
+Schwartz--Zippel false-positive bound $\lesssim 2.2\times10^{-65}$.
 \end{center}
-
-\[
-\det J \;=\; -2 \quad\text{at each of the following } (x, y, z):
-\]
 
 \begin{center}
 \small
-\setlength{\tabcolsep}{7pt}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{cccccc}
-$( 5,-4,-5)$ & $(-1,-2,-2)$ & $(-3,-4, 5)$ & $( 3,-4, 4)$ & $( 1,-5,-5)$ & $(-4,-2,-2)$ \\
-$( 3, 4,-5)$ & $( 3,-2, 5)$ & $( 3, 1,-2)$ & $( 2, 4,-1)$ & $(-5,-3, 1)$ & $( 0,-1,-3)$ \\
-$(-2, 0,-4)$ & $(-4, 1,-4)$ & $( 0, 0, 4)$ & $(-1,-5, 2)$ & $( 3,-4, 1)$ & $(-4, 3,-1)$ \\
-$( 5, 4, 0)$ & $( 4,-2,-4)$ & $(-5, 5,-2)$ & $(-1,-4,-2)$ & $(-4, 1,-1)$ & $( 2, 5, 0)$ \\
-$(-3, 0, 0)$ & $(-2, 5,-1)$ & $( 5, 5,-4)$ & $( 4, 5,-3)$ & $( 3,-2,-3)$ & $( 2, 1,-1)$ \\
-$( 5, 3,-2)$ & $( 5, 0,-5)$ & $(-2,-5, 0)$ & $( 1,-1,-4)$ & $(-2, 4, 0)$ & $(-2, 5, 2)$ \\
-$( 1, 5, 2)$ & $(-3,-1,-3)$ & $(-2, 3, 3)$ & $(-1, 4, 1)$ & $( 4, 1, 0)$ & $(-2,-3, 3)$ \\
-$( 2,-4,-5)$ & $(-4,-3, 5)$ & $(-3, 5, 1)$ & $( 4,-4, 1)$ & $( 1, 4, 2)$ & $( 3,-1, 3)$ \\
-$(-5, 5,-4)$ & $( 5, 3,-1)$ & $( 5, 0,-4)$ & $(-1, 1,-3)$ & $( 2,-5,-1)$ & $( 3,-3, 3)$ \\
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}c c c @{\hspace{1.2cm}} c c c @{\hspace{1.2cm}} c c c@{}}
+\hline
+point & $J$ & $\det$ & point & $J$ & $\det$ & point & $J$ & $\det$ \\ \hline
+$(0, 0, 0)$   & $\begin{pmatrix}   0 &   0 &   1 \\   0 &   1 &   0 \\   2 &   0 &   0 \end{pmatrix}$ & $-2$ &
+$(0, 0, 1)$   & $\begin{pmatrix}   0 &   0 &   1 \\   3 &   1 &   0 \\   2 &   0 &   0 \end{pmatrix}$ & $-2$ &
+$(1, -1, 1)$  & $\begin{pmatrix}  -1 &   1 &   0 \\  -6 &   4 &   0 \\   5 &  -3 &  -1 \end{pmatrix}$ & $-2$ \\
+$(1, 0, 0)$   & $\begin{pmatrix}   0 &   0 &   1 \\   0 &   1 &   3 \\   2 &  -3 &  -1 \end{pmatrix}$ & $-2$ &
+$(1, 1, 0)$   & $\begin{pmatrix}  13 &  41 &   8 \\  30 &  52 &  12 \\  -4 &  -3 &  -1 \end{pmatrix}$ & $-2$ &
+$(2, 1, -1)$  & $\begin{pmatrix}  -8 &  44 &  27 \\ -15 &  85 &  54 \\   2 & -12 &  -8 \end{pmatrix}$ & $-2$ \\
+$(0, 1, 0)$   & $\begin{pmatrix}   7 &   8 &   1 \\  12 &   1 &   0 \\   2 &   0 &   0 \end{pmatrix}$ & $-2$ &
+$(-1, 1, 0)$  & $\begin{pmatrix}   1 &  -1 &   0 \\  -6 &   4 &   0 \\   8 &  -3 &   1 \end{pmatrix}$ & $-2$ &
+$(-1, 2, 1)$  & $\begin{pmatrix} -34 &  25 &  -1 \\ -81 &  55 &  -3 \\  11 &  -3 &   1 \end{pmatrix}$ & $-2$ \\ \hline
 \end{tabular}
 \end{center}
 
-\vfill
+\bigskip
 \begin{center}
 \small
 Map and points due to Levent Alpoge (\texttt{@\_\_alpoge\_\_}), announcement 2026-07-20.\\

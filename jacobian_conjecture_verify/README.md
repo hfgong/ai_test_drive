@@ -68,6 +68,10 @@ constant must be $-2$ everywhere. Two independent checks:
   $\partial(\det J)/\partial y$, $\partial(\det J)/\partial z$ are the
   zero polynomial.
 
+The PDF also includes a 9-row demo table showing the numerical $J(x,y,z)$
+matrix at 9 small integer points (columns: *point*, *J*, *det*) — any row is
+verifiable by Sarrus expansion in a few seconds.
+
 **(C) Monte Carlo with a Schwartz–Zippel bound.** Evaluating $\det J - (-2)$
 at random integer triples and finding it zero *would* be very weak evidence
 if the sample range were small — Schwartz–Zippel says that a nonzero
