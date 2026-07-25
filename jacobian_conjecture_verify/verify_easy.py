@@ -109,3 +109,28 @@ for i in range(K):
     print(f"  {mark}  ({xv:>5},{yv:>5},{zv:>5})  det={val}")
 print()
 print(f"All {K} evaluations returned -2: {all_ok}")
+
+# ------------------------------------------------------------------
+# (D) Human-readable demo table: the exact 54 points shown in
+#     jacobian.tex / jacobian.pdf, drawn from a small range so a
+#     reader can plug them into f_1, f_2, f_3 by hand if they wish.
+# ------------------------------------------------------------------
+random.seed(42)
+seen = set(); demo_pts = []
+while len(demo_pts) < 54:
+    p = (random.randint(-5, 5), random.randint(-5, 5), random.randint(-5, 5))
+    if p not in seen:
+        seen.add(p); demo_pts.append(p)
+
+print()
+print("Step D -- demo of 54 human-readable points (small integers).")
+print("Range {-5,...,5}, |S|=11.  Weak SZ bound alone; shown for illustration only.")
+demo_ok = True
+for i, (xv, yv, zv) in enumerate(demo_pts):
+    val = J.subs({x: xv, y: yv, z: zv}).det()
+    ok = (val == -2)
+    demo_ok &= ok
+    end = "\n" if (i + 1) % 6 == 0 else "   "
+    mark = "" if ok else "!!"
+    print(f"({xv:>2},{yv:>2},{zv:>2}){mark}", end=end)
+print(f"All 54 demo points returned -2: {demo_ok}")
