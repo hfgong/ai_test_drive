@@ -39,6 +39,38 @@ This repo only performs the symbolic check.
 - `output.txt` — captured stdout from running `python3 verify.py`.
 - `jacobian.tex` / `jacobian.pdf` / `jacobian.png` — typeset display of the
   full 3x3 Jacobian, its determinant, and the collision identity.
+- `verify_easy.py` / `output_easy.txt` — a more human-friendly split of the
+  determinant check (see below).
+
+## Easier verification strategy
+
+The full symbolic determinant is a 6-variable polynomial identity — awful
+to check by hand. `verify_easy.py` splits the claim into three small,
+individually cheap pieces:
+
+**(A) Evaluate $J$ at the origin.** Almost every entry of $J$ carries an
+$x$, $y$, or $z$ factor, so at $(0,0,0)$ the Jacobian collapses to a sparse
+permutation-like matrix:
+
+$$
+J(0,0,0) \;=\; \begin{pmatrix} 0 & 0 & 1 \\ 0 & 1 & 0 \\ 2 & 0 & 0 \end{pmatrix},
+\qquad \det = -2
+$$
+
+This is trivially verifiable by cofactor expansion along any row. So the
+value $-2$ is fixed at at least one point.
+
+**(B) Show $\det J$ is a *constant* polynomial.** Then by (A) that
+constant must be $-2$ everywhere. Two independent checks:
+
+- `Poly(det_J, x, y, z).is_ground` returns `True` (total degree 0).
+- All three partial derivatives $\partial(\det J)/\partial x$,
+  $\partial(\det J)/\partial y$, $\partial(\det J)/\partial z$ are the
+  zero polynomial.
+
+**(C) Sanity Monte Carlo.** Evaluating $\det J$ at 20 random integer
+triples all return $-2$. Not a proof on its own, but combined with (B)
+it's overwhelming evidence.
 
 ## Result
 
@@ -67,3 +99,5 @@ something this script can decide.
   the Python code, the run output, and an acknowledgement of the original
   author.
 - Convert the Jacobian into display math in LaTeX and render to PDF/PNG.
+- Offer an easier, more human-verifiable route than staring at the raw
+  symbolic determinant.

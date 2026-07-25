@@ -1,0 +1,37 @@
+Step A -- Jacobian at the origin (should be very sparse):
+Matrix([[0, 0, 1], [0, 1, 0], [2, 0, 0]])
+  det J(0,0,0) = -2     <-- trivial by cofactor along row 1
+
+Step B1 -- symbolic constancy check via sympy.Poly:
+  det J as a polynomial: -2
+  Poly(det_J).is_ground = True   (True <=> a constant)
+  total_degree          = 0
+
+Step B2 -- constancy via vanishing gradient:
+  d(det J)/dx = 0
+  d(det J)/dy = 0
+  d(det J)/dz = 0
+
+Step C -- Monte Carlo: det J at 20 random integer points:
+  OK  point={'x': 3, 'y': 4, 'z': -8}  det=-2
+  OK  point={'x': -1, 'y': 7, 'z': 6}  det=-2
+  OK  point={'x': 3, 'y': 0, 'z': 6}  det=-2
+  OK  point={'x': 2, 'y': 9, 'z': -3}  det=-2
+  OK  point={'x': 7, 'y': -5, 'z': 0}  det=-2
+  OK  point={'x': -5, 'y': -6, 'z': -1}  det=-2
+  OK  point={'x': 8, 'y': -5, 'z': 0}  det=-2
+  OK  point={'x': -6, 'y': -7, 'z': 1}  det=-2
+  OK  point={'x': 6, 'y': 8, 'z': -6}  det=-2
+  OK  point={'x': 2, 'y': 4, 'z': 1}  det=-2
+  OK  point={'x': -3, 'y': 8, 'z': 6}  det=-2
+  OK  point={'x': 5, 'y': 7, 'z': -1}  det=-2
+  OK  point={'x': -8, 'y': 8, 'z': -9}  det=-2
+  OK  point={'x': -7, 'y': 3, 'z': -9}  det=-2
+  OK  point={'x': 6, 'y': 1, 'z': -2}  det=-2
+  OK  point={'x': 1, 'y': -7, 'z': -3}  det=-2
+  OK  point={'x': 9, 'y': -2, 'z': -2}  det=-2
+  OK  point={'x': -5, 'y': 8, 'z': 5}  det=-2
+  OK  point={'x': -7, 'y': -7, 'z': 1}  det=-2
+  OK  point={'x': 7, 'y': 6, 'z': -6}  det=-2
+
+All 20 evaluations returned -2: True
