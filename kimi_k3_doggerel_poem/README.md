@@ -29,16 +29,16 @@
 
 ## 逐句解读
 
-| 诗句 | 对应的技术要点 |
-| --- | --- |
-| 万亿参数二点八 | 总参数量约 **2.8 万亿**（trillion）。 |
-| 八九六选十六家 | MoE 稀疏专家：共 **896** 个专家，每个 token 激活 **16** 个（top-16 routing）。 |
-| 三份 KDA 压历史 | 混合注意力中 **3** 份 **KDA**（Kimi Delta Attention，线性注意力）负责压缩、承载长历史。 |
-| 一份 MLA 留精华 | 每 3 份 KDA 搭配 **1** 份 **MLA**（Multi-head Latent Attention），保留全局精确注意力的“精华”。 |
-| 位置编码全不要 | 采用 **NoPE**（No Positional Encoding），不再显式加位置编码。 |
-| 跨层互连有残差 | **跨层连接 / 残差互连**（cross-layer residual connection）。 |
-| Muon 动量正交化 | 使用 **Muon** 优化器：对动量做**正交化**（矩阵近似正交化更新）。 |
-| 四位权重走天下 | **4-bit（INT4）权重量化**，低比特权重即可部署上线。 |
+| 诗句 | 英文对照 (Translation) | 对应的技术要点 |
+| --- | --- | --- |
+| 万亿参数二点八 | Two-point-eight trillion weights in all | 总参数量约 **2.8 万亿**（trillion）。 |
+| 八九六选十六家 | Sixteen of eight-ninety-six answer the call | MoE 稀疏专家：共 **896** 个专家，每个 token 激活 **16** 个（top-16 routing）。 |
+| 三份 KDA 压历史 | Three parts KDA to squeeze the past | 混合注意力中 **3** 份 **KDA**（Kimi Delta Attention，线性注意力）负责压缩、承载长历史。 |
+| 一份 MLA 留精华 | One part MLA keeps the gist steadfast | 每 3 份 KDA 搭配 **1** 份 **MLA**（Multi-head Latent Attention），保留全局精确注意力的“精华”。 |
+| 位置编码全不要 | Positional codes? We toss them away | 采用 **NoPE**（No Positional Encoding），不再显式加位置编码。 |
+| 跨层互连有残差 | Cross-layer residuals bridge the way | **跨层连接 / 残差互连**（cross-layer residual connection）。 |
+| Muon 动量正交化 | Muon marches, its momentum made square | 使用 **Muon** 优化器：对动量做**正交化**（矩阵近似正交化更新）。 |
+| 四位权重走天下 | Four-bit weights, and it's out everywhere | **4-bit（INT4）权重量化**，低比特权重即可部署上线。 |
 
 ## 说明与免责
 
